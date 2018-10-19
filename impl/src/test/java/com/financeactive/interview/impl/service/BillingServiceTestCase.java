@@ -24,7 +24,8 @@ public class BillingServiceTestCase {
         ParkingTicket ticket = new ParkingTicket(vehicle, todayAt1324);        
 
         ParkingBill parkingBill = billingService.bill(ticket, todayAt1510);
-        assertEquals(new BigDecimal(2), parkingBill.getFee());
         assertEquals("1h46", parkingBill.getBilledTime().toString());
+        assertEquals(new BigDecimal(2), parkingBill.getFee());
+        
     }
 }

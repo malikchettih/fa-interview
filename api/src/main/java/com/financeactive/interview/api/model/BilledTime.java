@@ -12,7 +12,9 @@ public class BilledTime {
     }
 
     public BilledTime(int minutes, int hours){
-        
+        super();
+        this.hours = hours;
+        this.minutes = minutes;
     }
 
     public BilledTime(Date inTime){
@@ -43,5 +45,9 @@ public class BilledTime {
 
     public void setHours(int hours) {
         this.hours = hours;
+    }
+    
+    public String toString(){
+        return String.format("%dh%d", minutes, hours);
     }
 }

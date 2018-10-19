@@ -21,8 +21,7 @@ public class BillingService implements IBillingService {
         
         ParkingBill bill = new ParkingBill(ticket, outTime);
         BillingStrategy billingStrategy = BillingStrategyProvider.provide(ticket.getVehicle());
-        BigDecimal fee = billingStrategy.compute(ticket, outTime);
-        bill.setFee(fee);
+        billingStrategy.compute(bill);
         return bill;
     }
 }
