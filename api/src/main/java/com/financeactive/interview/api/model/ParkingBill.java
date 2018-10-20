@@ -2,7 +2,6 @@ package com.financeactive.interview.api.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class ParkingBill {
     

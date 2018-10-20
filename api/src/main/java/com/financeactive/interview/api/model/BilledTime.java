@@ -48,6 +48,6 @@ public class BilledTime {
     }
     
     public String toString(){
-        return String.format("%dh%d", minutes, hours);
+        return String.format("%dh%02d", hours, minutes);
     }
 }
