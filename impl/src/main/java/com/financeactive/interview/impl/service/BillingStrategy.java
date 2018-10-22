@@ -3,11 +3,22 @@ package com.financeactive.interview.impl.service;
 import com.financeactive.interview.api.model.ParkingBill;
 import com.financeactive.interview.api.model.ParkingTicket;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Date;
 
+/**
+ * Billing Strategy interface for a Vehicle.
+ * 
+ * @see com.financeactive.interview.api.model.ParkingTicket
+ * @see java.time.LocalDateTime
+ */
 public interface BillingStrategy {
-    
-    public void compute(ParkingBill parkingBill);
+
+    /**
+     * Return a parking bill after computing the billing fees using the ticket and the exit time parameters. 
+     * p
+     * @param ticket the issued ticket
+     * @param outTime the exit time.
+     * @return com.financeactive.interview.api.model.ParkingBill
+     */
+    public ParkingBill bill(ParkingTicket ticket, LocalDateTime outTime);
 }

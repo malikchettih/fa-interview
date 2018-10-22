@@ -2,6 +2,12 @@ package com.financeactive.interview.api.model;
 
 import com.google.common.base.Objects;
 
+/**
+ * Vehicle, holds the type of the vehicle and the type of fuel that is used by the vehicle.
+ * 
+ * @see com.financeactive.interview.api.model.VehicleType
+ * @see com.financeactive.interview.api.model.Fuel
+ */
 public class Vehicle {
     
     private VehicleType vehicleType;
@@ -11,6 +17,7 @@ public class Vehicle {
     public Vehicle (VehicleType vehicleType){
         super();
         this.vehicleType = vehicleType;
+        this.fuel = Fuel.GASOLINE;
     }
     
     public Vehicle (VehicleType vehicleType, Fuel fuel){

@@ -13,9 +13,15 @@
     <artifactId>app</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>com.financeactive.interview</groupId>
             <artifactId>api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.financeactive.interview</groupId>
+            <artifactId>impl</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

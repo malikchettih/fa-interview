@@ -2,7 +2,9 @@ package com.financeactive.interview.api.model;
 
 import java.time.LocalDateTime;
 
-
+/**
+ * Parking ticket, holds the parking vehicle and the time of entrance.
+ */
 public class ParkingTicket {
     
     private Vehicle vehicle;

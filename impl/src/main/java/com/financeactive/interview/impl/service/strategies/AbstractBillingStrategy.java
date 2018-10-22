@@ -6,22 +6,50 @@ import com.financeactive.interview.api.model.ParkingTicket;
 import com.financeactive.interview.impl.service.BillingStrategy;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+/**
+ * Abstract Billing strategy. Hold the common parts of the billing algorithm.
+ * 
+ * The algorithms consists of :
+ * <ul>
+ *     <li>Computing the billed time, number of hours and number of minutes between the starting time and the end time of the parking.</li>
+ *     <li>Computation of the fees, 1rst hour free of charge, then 2 euros for one hours between 2 and 4 hours of parking, then 1.5 euros for each 1/2 hours.</li>
+ *     <li>Applying a fixed rate on the price, the type of vehicle and the used fuel is fixing the rate</li>
+ *     <li>Applying a rounding to the upper half, 1.49 become 1.5 and 1.99 become 2</li>
+ * </ul>
+ * 
+ * BigDecimal are used for the computation for the precision and the utlities methods that provides this method.
+ * @see java.math.BigDecimal 
+ */
 public abstract class AbstractBillingStrategy implements BillingStrategy {
 
-    public void compute(ParkingBill bill){
+    private final static BigDecimal PRICE_FOR_HOURS = new BigDecimal(2);
+    private final static BigDecimal PRICE_FOR_HALF_HOURS = new BigDecimal("1.5");
+    
+    @Override
+    public ParkingBill bill(ParkingTicket ticket, LocalDateTime outTime){
         
-        BilledTime billedTime = computeBilledTime(bill.getTicket().getInTime(), bill.getOutTime());
+        BilledTime billedTime = computeBilledTime(ticket.getInTime(), outTime);
         BigDecimal fees = computeFees(billedTime);
         fees = applyVariation(fees);
         fees = roundUpHalf(fees);
         
+        ParkingBill bill = new ParkingBill(ticket, outTime);
         bill.setBilledTime(billedTime);
         bill.setFee(fees);
+        return bill;
+    }
+    
+    protected BigDecimal getPricePerHour(){
+        return PRICE_FOR_HOURS;
+    }
+    
+    protected BigDecimal getPricePerHalfHour(){
+        return PRICE_FOR_HALF_HOURS;
     }
     
     protected BilledTime computeBilledTime(LocalDateTime inTime, LocalDateTime outTime){
@@ -39,7 +67,7 @@ public abstract class AbstractBillingStrategy implements BillingStrategy {
         }
         
         int nbHalfHourAfter4Hours = getNbHalfHoursAfter(billedTime);
-        BigDecimal amount = new BigDecimal(Math.min(billedTime.getHours(), 3)*2).add(new BigDecimal(nbHalfHourAfter4Hours).multiply(new BigDecimal("1.5")));
+        BigDecimal amount = new BigDecimal(Math.min(billedTime.getHours(), 3)).multiply(getPricePerHour()).add(new BigDecimal(nbHalfHourAfter4Hours).multiply(getPricePerHalfHour()));
         return amount;
     }
     
@@ -67,7 +95,11 @@ public abstract class AbstractBillingStrategy implements BillingStrategy {
                 .divide(TWO, 1, RoundingMode.UNNECESSARY).stripTrailingZeros();;
         return feesRoundedUp;
     }
-    
+
+    /**
+     * Return the price variation rate for a strategy. 
+     * @return
+     */
     public abstract BigDecimal getVariation();
     
 }
