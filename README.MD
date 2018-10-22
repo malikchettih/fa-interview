@@ -17,6 +17,6 @@ elegant way of setting the implementation will be to use an IOC framework like s
 Test are implemented once the api is implemented and then used to test and debug impl. Tests in this projects needs to 
 be improved.
 
-The integration of a logging ramework will be imporant for production solution.
+The integration of a logging framework will be imporant for production solution.
 
  
